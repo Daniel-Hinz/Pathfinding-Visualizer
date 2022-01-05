@@ -1,18 +1,34 @@
 import React from 'react';
+import Node from '../components/node.jsx'
+import BreadthFirstSearch from '../utils/bfs.js'
 
 class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            algorithm: 0,
+            algorithm: '',
             speed: 0,
-            nodes: Array.from({length: 459}, (_, i) => i + 1)
+            nodes: []
         }
     }
-    
-    search(component) {
-        console.log(component.state.speed);
-        return;
+
+    componentDidMount() {
+        let nodeRow = [];
+
+        for (let row = 0; row < 18; ++row) {
+            for (let col = 0; col < 13; ++col) {
+                nodeRow.push({
+                    start: col === 6 && row === 3 ? true : false,
+                    end: col === 6 && row === 14 ? true : false,
+                    x: col,
+                    y: row
+                })
+            }
+            this.state.nodes.push(nodeRow);
+            nodeRow = [];
+        }
+
+        this.forceUpdate();
     }
 
     render() {
@@ -36,10 +52,16 @@ class Main extends React.Component {
                 </header>
 
                 <main>
-                    <div className='grid'>{
-                        this.state.nodes.map((node, i) => 
-                            <div className='node'
-                                key={i}>
+                    <div className='grid'> {
+                        this.state.nodes.map((nodeRow, i) => 
+                            <div className='node-row' key={i}> {
+                                nodeRow.map((dict, j) => 
+                                    <Node   x = {dict.x} y = {dict.y} 
+                                            start = {dict.start} 
+                                            end = {dict.end}
+                                            key = {j}>        
+                                    </Node>
+                                )}
                             </div>
                         )}
                     </div>
@@ -53,7 +75,7 @@ class Main extends React.Component {
                         }}/>
 
                         <input type="button" value='Search' onClick={() => {
-                            this.search(this);
+                            BreadthFirstSearch(this);
                         }}/>
                     </div>
                 </footer>

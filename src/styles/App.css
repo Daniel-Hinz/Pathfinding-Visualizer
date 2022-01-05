@@ -52,25 +52,38 @@ header i {
 
 /* Main Styles */
 main {
-  height: calc(100vh - 240px);
+  margin-top: 50px;
+  height: calc(100vh - 300px);
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 5px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(17, 1fr);
+.node-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .node {
+  height: 25px;
+  width: 25px;
   outline: 1px solid black;
-  height: 20px;
-  width: 20px;
-  margin: 0;
-  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-node {
+  font-size: 20px;
+  color: var(--dark-blue)
+}
+
+.end-node {
+  font-size: 20px;
+  color: var(--dark-blue)
 }
 
 /* Footer Styles*/
@@ -81,7 +94,7 @@ footer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-bottom: 40px;
+  padding: 20px 0;
 }
 
 .control-panel {
@@ -102,4 +115,21 @@ footer {
   padding: 5px 0;
   width: 225px;
   background: var(--blue);
+  cursor: pointer;
+}
+
+@media screen and (min-width: 724px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(30px, 1fr));
+  }
+
+  .node {
+    height: 40px;
+    width: 40px;
+  }
+
+  .start-node, .end-node {
+    font-size: 35px;
+  }
 }
