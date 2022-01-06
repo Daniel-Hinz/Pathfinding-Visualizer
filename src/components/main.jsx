@@ -1,27 +1,33 @@
 import React from 'react';
-import Node from '../components/node.jsx'
-import BreadthFirstSearch from '../utils/bfs.js'
+import Node from '../components/node.jsx';
+import AStar from '../utils/a-star.js';
+import BreadthFirst from '../utils/breadth-first.js';
+import DepthFirst from '../utils/depth-first.js'
+import Dijkstras from '../utils/dijkstras.js'
+import Swarm from '../utils/swarm.js'
 
 class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             algorithm: '',
+            mouse: false,
+            nodes: [],
             speed: 0,
-            nodes: []
         }
     }
 
     componentDidMount() {
         let nodeRow = [];
 
-        for (let row = 0; row < 18; ++row) {
+        for (let row = 0; row < 13; ++row) {
             for (let col = 0; col < 13; ++col) {
                 nodeRow.push({
-                    start: col === 6 && row === 3 ? true : false,
-                    end: col === 6 && row === 14 ? true : false,
-                    x: col,
-                    y: row
+                    type: 
+                        col === 6 && row === 3 ? 'start' : 
+                        col === 6 && row === 9 ? 'end' : '',
+                    x: row,
+                    y: col
                 })
             }
             this.state.nodes.push(nodeRow);
@@ -35,7 +41,7 @@ class Main extends React.Component {
         return (
             <div className='Main'>
                 <header>
-                    <h1>Pathfinding Visualizer</h1>
+                    <h1>Pathfinder</h1>
 
                     <select onChange={(e) => { 
                         this.setState({algorithm: e.target.value})
@@ -56,11 +62,7 @@ class Main extends React.Component {
                         this.state.nodes.map((nodeRow, i) => 
                             <div className='node-row' key={i}> {
                                 nodeRow.map((dict, j) => 
-                                    <Node   x = {dict.x} y = {dict.y} 
-                                            start = {dict.start} 
-                                            end = {dict.end}
-                                            key = {j}>        
-                                    </Node>
+                                    <Node x={dict.x} y={dict.y} type={dict.type} key={j}></Node>
                                 )}
                             </div>
                         )}
@@ -75,7 +77,14 @@ class Main extends React.Component {
                         }}/>
 
                         <input type="button" value='Search' onClick={() => {
-                            BreadthFirstSearch(this);
+                            switch(this.state.algorithm) {
+                                case 'A*':        AStar(this);        break;
+                                case 'Breadth':   BreadthFirst(this); break;
+                                case 'Depth':     DepthFirst(this);   break;
+                                case 'Dijkstras': Dijkstras(this);    break;
+                                case 'Swarm':     Swarm(this);        break;
+                                default: alert('Please select an algorithm');
+                            }
                         }}/>
                     </div>
                 </footer>

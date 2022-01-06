@@ -37,7 +37,7 @@ header select, header select:focus, header i {
   background: transparent;
   top: 50%;
   transform: translateY(-50%);
-  right: 20px;
+  right: 50px;
   border: 0;
   outline: 0;
   color: white;
@@ -74,16 +74,19 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
-.start-node {
-  font-size: 20px;
-  color: var(--dark-blue)
+.start-node, .end-node {
+  font-size: 22.5px;
+  color: var(--dark-blue);
+  cursor: grab;
 }
 
-.end-node {
-  font-size: 20px;
-  color: var(--dark-blue)
+.barrier-node {
+  font-size: 22.5px;
+  color: var(--dark-blue);
+  cursor: pointer;
 }
 
 /* Footer Styles*/
