@@ -13,8 +13,8 @@ class Node extends React.Component {
 
     render() {
         switch(this.state.type) { 
-            case 'start':   return (<div className='node'><i className="start-node fas fa-chevron-right"></i></div>);
-            case 'end':     return (<div className='node'><i className="end-node far fa-dot-circle"></i></div>); 
+            case 'start':   return (<div className='node'><i className="start-node fas fa-chevron-right" draggable={true}></i></div>);
+            case 'end':     return (<div className='node'><i className="end-node far fa-dot-circle"  draggable={true}></i></div>); 
             case 'barrier': return (<div className='node'><i className="barrier-node fas fa-times" onClick={() => {this.setState({type: ''})}}></i></div>); 
             
             default: return (

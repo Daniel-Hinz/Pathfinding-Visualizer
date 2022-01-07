@@ -14,7 +14,7 @@ class Main extends React.Component {
             nodes: [],
             speed: 0,
             start: [],
-            end: [],
+            end: []
         }
     }
 
@@ -24,7 +24,7 @@ class Main extends React.Component {
             let nodeRow = [];
             for (let col = 0; col < 13; ++col) {
                 nodeRow.push({
-                    type: row === 6 && col === 3 ? 'start' : row === 6 && col === 9 ? 'end' : '',
+                    type: col === 3 && row === 6 ? 'start' : col === 9 && row === 6 ? 'end' : '',
                     col: col,
                     row: row
                 })
@@ -75,11 +75,11 @@ class Main extends React.Component {
 
                         <input type="button" value='Search' onClick={() => {
                             switch(this.state.algorithm) {
-                                case 'A*':        AStar(this);        break;
+                                case 'A*':        AStar       (this, this.state.start, this.state.end); break;
                                 case 'Breadth':   BreadthFirst(this, this.state.start, this.state.end); break;
-                                case 'Depth':     DepthFirst(this);   break;
-                                case 'Dijkstras': Dijkstras(this);    break;
-                                case 'Swarm':     Swarm(this);        break;
+                                case 'Depth':     DepthFirst  (this, this.state.start, this.state.end); break;
+                                case 'Dijkstras': Dijkstras   (this, this.state.start, this.state.end); break;
+                                case 'Swarm':     Swarm       (this, this.state.start, this.state.end); break;
                                 default: alert('Please select an algorithm');
                             }
                         }}/>
