@@ -11,30 +11,27 @@ class Main extends React.Component {
         super(props);
         this.state = {
             algorithm: '',
-            mouse: false,
             nodes: [],
             speed: 0,
+            start: [],
+            end: [],
         }
     }
 
     componentDidMount() {
-        let nodeRow = [];
-
+        let grid = [];
         for (let row = 0; row < 13; ++row) {
+            let nodeRow = [];
             for (let col = 0; col < 13; ++col) {
                 nodeRow.push({
-                    type: 
-                        col === 6 && row === 3 ? 'start' : 
-                        col === 6 && row === 9 ? 'end' : '',
-                    x: row,
-                    y: col
+                    type: row === 6 && col === 3 ? 'start' : row === 6 && col === 9 ? 'end' : '',
+                    col: col,
+                    row: row
                 })
             }
-            this.state.nodes.push(nodeRow);
-            nodeRow = [];
+            grid.push(nodeRow);
         }
-
-        this.forceUpdate();
+        this.setState({nodes: grid, start: grid[6][3], end: grid[6][9]});
     }
 
     render() {
@@ -62,7 +59,7 @@ class Main extends React.Component {
                         this.state.nodes.map((nodeRow, i) => 
                             <div className='node-row' key={i}> {
                                 nodeRow.map((dict, j) => 
-                                    <Node x={dict.x} y={dict.y} type={dict.type} key={j}></Node>
+                                    <Node row={dict.row} col={dict.col} type={dict.type} visited={false} key={j}></Node>
                                 )}
                             </div>
                         )}
@@ -79,7 +76,7 @@ class Main extends React.Component {
                         <input type="button" value='Search' onClick={() => {
                             switch(this.state.algorithm) {
                                 case 'A*':        AStar(this);        break;
-                                case 'Breadth':   BreadthFirst(this); break;
+                                case 'Breadth':   BreadthFirst(this, this.state.start, this.state.end); break;
                                 case 'Depth':     DepthFirst(this);   break;
                                 case 'Dijkstras': Dijkstras(this);    break;
                                 case 'Swarm':     Swarm(this);        break;
