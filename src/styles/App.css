@@ -72,23 +72,24 @@ main {
 .node {
   height: 30px;
   width: 30px;
-  outline: 1px solid black;
+  outline: 1px solid var(--dark-blue);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 }
 
-.start-node, .end-node {
+.start, .end {
   font-size: 22.5px;
   color: var(--dark-blue);
   cursor: grab;
 }
 
-.barrier-node {
+.barrier {
   font-size: 22.5px;
-  color: var(--dark-blue);
+  background: var(--dark-blue);
   cursor: pointer;
+  transition: .2s;
 }
 
 /* Footer Styles*/
@@ -98,8 +99,7 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding-bottom: 40px;
+  justify-content: center;
 }
 
 .control-panel {

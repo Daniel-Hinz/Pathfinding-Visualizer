@@ -13,14 +13,14 @@ class Main extends React.Component {
             algorithm: '',
             speed: 0,
             nodes: [],
-            start: [],
-            end: []
+            start: {},
+            end: {}
         }
 
         this.generateGrid = this.generateGrid.bind(this);
     }
 
-    generateGrid() {
+    async generateGrid() {
         let main = document.querySelector('.main');
         let numCols = Math.floor(main.offsetWidth / 30) - 2;
         let numRows = Math.floor(main.offsetHeight / 30) - 2;
@@ -37,7 +37,7 @@ class Main extends React.Component {
                     row: row,
                     col: col,
                     type: 
-                        col === Math.floor(numCols/4) && 
+                        col === Math.floor((numCols)/4) && 
                         row === Math.floor(numRows/2) ? 'start' : 
 
                         col === Math.floor(numCols/1.33) && 
@@ -96,7 +96,7 @@ class Main extends React.Component {
                 </main>
 
                 <footer>
-                <div className='control-panel'>
+                    <div className='control-panel'>
                         <p>Speed of the search:</p>
                         <input type="range" min='100' max='1000' step='50' defaultValue='550' onChange={(e) => {
                             this.setState({speed: e.target.value})

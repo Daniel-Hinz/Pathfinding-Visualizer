@@ -3,6 +3,7 @@ import React from 'react';
 class Node extends React.Component { 
     constructor(props) {
         super(props);
+        
         this.state = {
             visited: props.visited,
             type: props.type,
@@ -10,20 +11,58 @@ class Node extends React.Component {
             col: props.col,
             x: 0,
             y: 0
-        }
+        };
     }
 
     render() {
         switch(this.state.type) { 
-            case 'start':   return (<div className='node'><i className="start-node fas fa-chevron-right" draggable={true}></i></div>);
-            case 'end':     return (<div className='node'><i className="end-node far fa-dot-circle"  draggable={true}></i></div>); 
-            case 'barrier': return (<div className='node'><i className="barrier-node fas fa-times" onClick={() => {this.setState({type: ''})}}></i></div>); 
-            case 'visited': return (<div className='node'><div className='visited'></div></div>); 
 
+            // Start Node Element
+            case 'start':   
+                return (
+                    <div className='start node'>
+                        <i  className="start fas fa-chevron-right" 
+                            draggable={true} 
+                            onDrag={() => {this.setState({type: ''});}
+                            }>
+                        </i>
+                    </div>
+                );
+            
+            // End Node Element
+            case 'end':     
+                return (
+                    <div className='end node'>
+                        <i  className="end far fa-dot-circle" 
+                            draggable={true} 
+                            onDrag={() => {
+                                this.setState({type: ''})
+                            }}> 
+                        </i>
+                    </div>
+                ); 
+            
+            // Barrier Node Element
+            case 'barrier': 
+                return (
+                    <div className='barrier node' 
+                         onClick={() => {this.setState({type: ''})}}>
+                    </div>
+                ); 
+            
+            // Visited Node Element
+            case 'visited': 
+                return (
+                    <div className='node'></div>
+                ); 
+
+            // Default Node Element
             default: return (
                 <div className='node' 
                      onMouseEnter={(e) => {if (e.buttons === 1) this.setState({type: 'barrier'})}}
-                     onClick={() => {this.setState({type: 'barrier'})}}>
+                     onClick={() => {this.setState({type: 'barrier'})}}
+                     onDragOver={(e) => {e.preventDefault()}}
+                     onDrop ={(e) => {this.setState({type: 'start'})}}>
                 </div>
             );
         }
