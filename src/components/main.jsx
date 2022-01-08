@@ -9,12 +9,10 @@ import Swarm from '../utils/swarm.js'
 class Main extends React.Component {
     constructor(props) {
         super(props);
-        this.numCols = 0;
-        this.numRows = 0;
         this.state = {
             algorithm: '',
-            nodes: [],
             speed: 0,
+            nodes: [],
             start: [],
             end: []
         }
@@ -24,31 +22,34 @@ class Main extends React.Component {
 
     generateGrid() {
         let main = document.querySelector('.main');
-        this.numCols = Math.floor(main.offsetWidth / 30) - 2;
-        this.numRows = Math.floor(main.offsetHeight / 30) - 2;
+        let numCols = Math.floor(main.offsetWidth / 30) - 2;
+        let numRows = Math.floor(main.offsetHeight / 30) - 2;
         
         let grid = [];
-        for (let row = 0; row < this.numRows; ++row) {
+        for (let row = 0; row < numRows; ++row) {
             let nodeRow = [];
-            for (let col = 0; col < this.numCols; ++col) {
+            for (let col = 0; col < numCols; ++col) {
                 nodeRow.push({
-                    type: 
-                    col === Math.floor(this.numCols/4) && 
-                    row === Math.floor(this.numRows/2) ? 'start' : 
-
-                    col === Math.floor(this.numCols/1.33) && 
-                    row === Math.floor(this.numRows/2) ? 'end' : '',
-                    
+                    visited: false,
+                    weight: 1,
+                    fn: 9999,
+                    gn: 9999,
                     row: row,
-                    col: col
+                    col: col,
+                    type: 
+                        col === Math.floor(numCols/4) && 
+                        row === Math.floor(numRows/2) ? 'start' : 
+
+                        col === Math.floor(numCols/1.33) && 
+                        row === Math.floor(numRows/2) ? 'end' : ''
                 })
             }
             grid.push(nodeRow);
         }
 
         this.setState({
-            start: grid[Math.floor(this.numRows/2)][Math.floor(this.numCols/4)], 
-            end: grid[Math.floor(this.numRows/2)][Math.floor(this.numCols/1.33)],
+            start: grid[Math.floor(numRows/2)][Math.floor(numCols/4)], 
+            end: grid[Math.floor(numRows/2)][Math.floor(numCols/1.33)],
             nodes: grid
         });
     }
