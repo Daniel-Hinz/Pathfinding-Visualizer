@@ -3,9 +3,10 @@ import React from 'react';
 class Node extends React.Component { 
     constructor(props) {
         super(props);
-        
+
         this.state = {
             visited: props.visited,
+            draggableElement: '',
             type: props.type,
             row: props.row,
             col: props.col,
@@ -20,11 +21,11 @@ class Node extends React.Component {
             // Start Node Element
             case 'start':   
                 return (
-                    <div className='start node'>
+                    <div className='start node' type='start'>
                         <i  className="start fas fa-chevron-right" 
                             draggable={true} 
-                            onDrag={() => {this.setState({type: ''});}
-                            }>
+                            onDragStart={(e) => {e.dataTransfer.setData('type', this.props.type)}}
+                            onDrag={() => {this.setState({type: ''})}}>
                         </i>
                     </div>
                 );
@@ -32,12 +33,11 @@ class Node extends React.Component {
             // End Node Element
             case 'end':     
                 return (
-                    <div className='end node'>
+                    <div className='end node' type='end'>
                         <i  className="end far fa-dot-circle" 
                             draggable={true} 
-                            onDrag={() => {
-                                this.setState({type: ''})
-                            }}> 
+                            onDragStart={(e) => {e.dataTransfer.setData('type', this.props.type)}}
+                            onDrag={() => {this.setState({type: ''})}}> 
                         </i>
                     </div>
                 ); 
@@ -58,11 +58,11 @@ class Node extends React.Component {
 
             // Default Node Element
             default: return (
-                <div className='node' 
+                <div className='node'
                      onMouseEnter={(e) => {if (e.buttons === 1) this.setState({type: 'barrier'})}}
                      onClick={() => {this.setState({type: 'barrier'})}}
                      onDragOver={(e) => {e.preventDefault()}}
-                     onDrop ={(e) => {this.setState({type: 'start'})}}>
+                     onDrop ={(e) => {this.setState({type: e.dataTransfer.getData('type')})}}>
                 </div>
             );
         }
