@@ -7,7 +7,7 @@ export default function DepthFirst(component, start, end) {
         let current = queue.shift();
 
         if (current.col === end.col && current.row === end.row) 
-            return;
+            return console.log('worked');
 
         if (grid[current.row][current.col].visited !== true) {
             grid[current.row][current.col].visited = true;
@@ -27,10 +27,10 @@ function getNeighbors(grid, node) {
     if (node.row-1 > 0)
         neighbors.push(grid[node.row-1][node.col]);
 
-    if (node.col+1 < 13)
+    if (node.col+1 < grid[0].length)
         neighbors.push(grid[node.row][node.col+1]);
 
-    if (node.row+1 < 13)
+    if (node.row+1 < grid.length)
         neighbors.push(grid[node.row+1][node.col]);
 
     if (node.col-1 > 0)

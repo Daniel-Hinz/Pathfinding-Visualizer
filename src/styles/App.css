@@ -90,6 +90,11 @@ main {
   background: var(--dark-blue);
   cursor: pointer;
   transition: .2s;
+  animation-name: add-barrier;
+  animation-duration: .75s;
+  animation-timing-function: ease-out;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
 }
 
 /* Footer Styles*/
@@ -123,6 +128,20 @@ footer {
   cursor: pointer;
 }
 
+/* Media Queries */
 @media screen and (min-width: 724px) {
 
+}
+
+/* Animations */
+@keyframes add-barrier {
+  0% { 
+    transform: scale(.1);
+    border-radius: 50%;
+  }
+
+  100% {
+    transform: scale(1);
+    border-radius: 0;
+  }
 }

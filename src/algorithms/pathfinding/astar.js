@@ -1,6 +1,5 @@
 function AStar(component, start, end) {
     let grid = component.state.nodes;
-    let cameFrom = [];
     let open = [];
 
     // instantiate grid
@@ -19,20 +18,15 @@ function AStar(component, start, end) {
         if (current.row === end.row && current.col === end.row)
             return reconstruct(current);
 
-        
         // remove current from open
         open.splice(open.indexOf(current), 1);
         for (const neighbor of getNeighbors(grid, current)) {
-
+    
             // get weighted gn for each neighbor
             let tentative_gScore = current.gn + 1;
 
             // if weighted gn is lower than regular gn
             if (tentative_gScore < neighbor.gn){
-
-                // add current to came from
-                if (!cameFrom.includes(current))
-                    cameFrom.push(current);
                 
                 // update values
                 neighbor.previous = current;
@@ -54,10 +48,10 @@ function getNeighbors(grid, node) {
     if (node.row-1 > 0)
         neighbors.push(grid[node.row-1][node.col]);
 
-    if (node.col+1 < 13)
+    if (node.col+1 < grid[0].length)
         neighbors.push(grid[node.row][node.col+1]);
 
-    if (node.row+1 < 13)
+    if (node.row+1 < grid.length)
         neighbors.push(grid[node.row+1][node.col]);
 
     if (node.col-1 > 0)
@@ -77,8 +71,8 @@ function reconstruct(end) {
     let current = end;
 
     while (current.previous) {
-      total_path.unshift(current);
-      current = current.previous;
+        total_path.unshift(current);
+        current = current.previous;
     }
     
     return total_path;

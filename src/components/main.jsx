@@ -1,10 +1,10 @@
 import React from 'react';
 import Node from '../components/node.jsx';
-import AStar from '../utils/a-star.js';
-import BreadthFirst from '../utils/breadth-first.js';
-import DepthFirst from '../utils/depth-first.js'
-import Dijkstras from '../utils/dijkstras.js'
-import Swarm from '../utils/swarm.js'
+import AStar from '../algorithms/pathfinding/astar.js';
+import BreadthFirst from '../algorithms/pathfinding/breadth-first.js';
+import DepthFirst from '../algorithms/pathfinding/depth-first.js'
+import Dijkstras from '../algorithms/pathfinding/dijkstras.js'
+import Swarm from '../algorithms/pathfinding/swarm.js'
 
 class Main extends React.Component {
     constructor(props) {
@@ -20,7 +20,7 @@ class Main extends React.Component {
         this.generateGrid = this.generateGrid.bind(this);
     }
 
-    async generateGrid() {
+    generateGrid() {
         let main = document.querySelector('.main');
         let numCols = Math.floor(main.offsetWidth / 30) - 2;
         let numRows = Math.floor(main.offsetHeight / 30) - 2;
@@ -48,7 +48,7 @@ class Main extends React.Component {
         }
 
         this.setState({
-            start: grid[Math.floor(numRows/2)][Math.floor(numCols/4)], 
+            start: grid[Math.floor(numRows/2)][Math.floor(numCols/4)],
             end: grid[Math.floor(numRows/2)][Math.floor(numCols/1.33)],
             nodes: grid
         });
@@ -87,8 +87,8 @@ class Main extends React.Component {
                     <div className='grid'> {
                         this.state.nodes.map((nodeRow, i) => 
                             <div className='node-row' key={i}> {
-                                nodeRow.map((dict, j) => 
-                                    <Node row={dict.row} col={dict.col} type={dict.type} visited={false} key={j}></Node>
+                                nodeRow.map((node, j) => 
+                                    <Node row={node.row} col={node.col} type={node.type} visited={node.visited} key={j}></Node>
                                 )}
                             </div>
                         )}

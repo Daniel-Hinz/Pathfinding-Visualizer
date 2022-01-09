@@ -58,7 +58,7 @@ class Node extends React.Component {
 
             // Default Node Element
             default: return (
-                <div className='node'
+                <div className='node' 
                      onMouseEnter={(e) => {if (e.buttons === 1) this.setState({type: 'barrier'})}}
                      onClick={() => {this.setState({type: 'barrier'})}}
                      onDragOver={(e) => {e.preventDefault()}}
