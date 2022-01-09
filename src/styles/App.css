@@ -91,10 +91,16 @@ main {
   cursor: pointer;
   transition: .2s;
   animation-name: add-barrier;
-  animation-duration: .75s;
+  animation-duration: .5s;
   animation-timing-function: ease-out;
   animation-direction: alternate;
   animation-fill-mode: forwards;
+}
+
+.visited {
+  outline: 0; 
+  background: var(--lighter-blue);
+  z-index: 10;
 }
 
 /* Footer Styles*/
@@ -138,6 +144,11 @@ footer {
   0% { 
     transform: scale(.1);
     border-radius: 50%;
+  }
+
+  50% {
+    transform: scale(.5);
+    border-radius: 75%;
   }
 
   100% {

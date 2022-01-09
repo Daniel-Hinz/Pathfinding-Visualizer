@@ -12,12 +12,23 @@ class Main extends React.Component {
         this.state = {
             algorithm: '',
             speed: 0,
+            type: '',
             nodes: [],
             start: {},
             end: {}
         }
 
         this.generateGrid = this.generateGrid.bind(this);
+        this.updateNode = this.updateNode.bind(this);
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.generateGrid);
+        this.generateGrid();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.generateGrid);
     }
 
     generateGrid() {
@@ -31,7 +42,6 @@ class Main extends React.Component {
             for (let col = 0; col < numCols; ++col) {
                 nodeRow.push({
                     visited: false,
-                    weight: 1,
                     fn: 9999,
                     gn: 9999,
                     row: row,
@@ -54,13 +64,32 @@ class Main extends React.Component {
         });
     }
 
-    componentDidMount() {
-        window.addEventListener('resize', this.generateGrid);
-        this.generateGrid();
-    }
+    updateNode(newRow, newCol, value) {
+        let main = document.querySelector('.main');
+        let numCols = Math.floor(main.offsetWidth / 30) - 2;
+        let numRows = Math.floor(main.offsetHeight / 30) - 2;
+        
+        let grid = [];
+        for (let row = 0; row < numRows; ++row) {
+            let nodeRow = [];
+            for (let col = 0; col < numCols; ++col) {
+                nodeRow.push({
+                    type: 
+                        (row === newRow && col === newCol) ? 
+                        value : this.state.nodes[row][col].type,
 
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.generateGrid);
+                    visited: true,
+                    weight: 1,
+                    fn: 9999,
+                    gn: 9999,
+                    row: row,
+                    col: col
+                })
+            }
+            grid.push(nodeRow);
+        }
+
+        this.setState({ nodes: grid });
     }
 
     render() {
@@ -78,7 +107,7 @@ class Main extends React.Component {
                         <option value='Swarm'>Swarm</option>   
                         <option value='Breadth'>Breadth First</option>                       
                         <option value='Depth'>Depth First</option>                   
-                    </select>
+                    </select> 
 
                     <i className="fas fa-chevron-down"></i>
                 </header>
@@ -88,7 +117,13 @@ class Main extends React.Component {
                         this.state.nodes.map((nodeRow, i) => 
                             <div className='node-row' key={i}> {
                                 nodeRow.map((node, j) => 
-                                    <Node row={node.row} col={node.col} type={node.type} visited={node.visited} key={j}></Node>
+                                    <Node updateNode={(row,col,val) => this.updateNode(row,col,val)}
+                                          row={node.row} 
+                                          col={node.col} 
+                                          type={node.type} 
+                                          visited={node.visited}  
+                                          key={j}>        
+                                    </Node>
                                 )}
                             </div>
                         )}
