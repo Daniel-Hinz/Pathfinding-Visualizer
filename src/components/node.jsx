@@ -1,28 +1,17 @@
 import React from 'react';
 
 class Node extends React.Component { 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            visited: props.visited,
-            type: props.type,
-            row: props.row,
-            col: props.col,
-        };
-    }
-
     render() {
         switch(this.props.type) { 
 
             // Start Node Element
             case 'start':   
                 return (
-                    <div className='start node' type={this.props.type} >
+                    <div className={'start node'} type={this.props.type}>
                         <i  className="start fas fa-chevron-right" 
                             draggable={true} 
                             onDragStart={(e) => {e.dataTransfer.setData('type', this.props.type)}}
-                            onDrag={() => {this.props.updateNode(this.props.row, this.props.col, '')}}>
+                            onDrag={() => {this.props.updateNode(this.props.row, this.props.col, '', false)}}>
                         </i>
                     </div>
                 );
@@ -30,11 +19,11 @@ class Node extends React.Component {
             // End Node Element
             case 'end':     
                 return (
-                    <div className='end node' type={this.props.type} >
+                    <div className={'end node'} type={this.props.type}>
                         <i  className="end far fa-dot-circle" 
                             draggable={true} 
                             onDragStart={(e) => {e.dataTransfer.setData('type', this.props.type)}}
-                            onDrag={() => {this.props.updateNode(this.props.row, this.props.col, '')}}> 
+                            onDrag={() => {this.props.updateNode(this.props.row, this.props.col, '', false)}}> 
                         </i>
                     </div>
                 ); 
@@ -42,27 +31,25 @@ class Node extends React.Component {
             // Barrier Node Element
             case 'barrier': 
                 return (
-                    <div className='barrier node' type={this.props.type} 
-                         onClick={() => {this.props.updateNode(this.props.row, this.props.col, '')}}>
+                    <div className='barrier node' type={this.props.type}
+                         onClick={() => {this.props.updateNode(this.props.row, this.props.col, '', true)}}>
                     </div>
                 ); 
-            
-            // Visited Node Element
+
             case 'visited': 
                 return (
-                    <div className='visited node' type='visited'>
-                        
+                    <div className='visited node' type={this.props.type}>
+
                     </div>
                 ); 
 
             // Default Node Element
             default: return (
-                <div className='node' type={this.props.type}
-                     onMouseEnter={(e) => {if (e.buttons === 1) this.props.updateNode(this.props.row, this.props.col, 'barrier')}}
-                     onClick={() => {this.props.updateNode(this.props.row, this.props.col, 'barrier')}}
+                <div className={'node'} type={this.props.type} 
+                     onMouseEnter={(e) => {if (e.buttons === 1) this.props.updateNode(this.props.row, this.props.col, 'barrier', true)}}
+                     onClick={() => {this.props.updateNode(this.props.row, this.props.col, 'barrier', true)}}
                      onDragOver={(e) => {e.preventDefault()}}
-                     onDrop ={(e) => {this.props.updateNode(this.props.row, this.props.col, e.dataTransfer.getData('type'))}}
-                    >
+                     onDrop ={(e) => {this.props.updateNode(this.props.row, this.props.col, e.dataTransfer.getData('type'), false)}}>
                 </div>
             );
         }

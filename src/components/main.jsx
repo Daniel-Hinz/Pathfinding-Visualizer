@@ -64,32 +64,33 @@ class Main extends React.Component {
         });
     }
 
-    updateNode(newRow, newCol, value) {
+    updateNode(newRow, newCol, value, visited) {
+
         let main = document.querySelector('.main');
         let numCols = Math.floor(main.offsetWidth / 30) - 2;
         let numRows = Math.floor(main.offsetHeight / 30) - 2;
         
-        let grid = [];
+        let grid = this.state.nodes;
         for (let row = 0; row < numRows; ++row) {
-            let nodeRow = [];
             for (let col = 0; col < numCols; ++col) {
-                nodeRow.push({
-                    type: 
-                        (row === newRow && col === newCol) ? 
-                        value : this.state.nodes[row][col].type,
-
-                    visited: true,
-                    weight: 1,
-                    fn: 9999,
-                    gn: 9999,
-                    row: row,
-                    col: col
-                })
+                if (row === newRow && col === newCol)
+                    grid[row][col] = {
+                        visited: visited,
+                        type: value,
+                        weight: 1,
+                        fn: 9999,
+                        gn: 9999,
+                        row: row,
+                        col: col
+                    }
             }
-            grid.push(nodeRow);
         }
 
-        this.setState({ nodes: grid });
+        this.setState({
+            start: (value === 'start') ? grid[newRow][newCol] : this.state.start,
+            end: (value === 'end') ? grid[newRow][newCol] : this.state.end,
+            nodes: grid 
+        });
     }
 
     render() {
@@ -117,7 +118,7 @@ class Main extends React.Component {
                         this.state.nodes.map((nodeRow, i) => 
                             <div className='node-row' key={i}> {
                                 nodeRow.map((node, j) => 
-                                    <Node updateNode={(row,col,val) => this.updateNode(row,col,val)}
+                                    <Node updateNode={(row,col,val, visit) => this.updateNode(row,col,val,visit)}
                                           row={node.row} 
                                           col={node.col} 
                                           type={node.type} 
@@ -147,6 +148,8 @@ class Main extends React.Component {
                                 default: alert('Please select an algorithm');
                             }
                         }}/>
+
+                        <input type="button" value='Reset' onClick={() => { this.generateGrid() }}/>
                     </div>
                 </footer>
             </div>
