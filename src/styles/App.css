@@ -17,33 +17,43 @@
 /* Header Styles */
 header {
   background: var(--darker-blue);
-  height: 100px;
   position: relative;
+  padding: 15px 0;
   border-bottom: 3px solid var(--blue);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  align-content: center;
+}
+
+header > * {
+  padding: 15px 0;
 }
 
 header h1 {
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  text-align: center;
   color: white;
   font-size: 20px;
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 
 header select, header select:focus, header i {
   appearance: none;
-  position: absolute;
   background: transparent;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 50px;
   border: 0;
   outline: 0;
   color: white;
   font-style: italic;
-  font-size: 20px;
+  font-size: 18px;
+  padding: 0 5px;
+  text-align: center;
 }
+
+.select {
+  grid-row: 2;
+}
+
 
 header i {
   font-size: 15px;
@@ -52,11 +62,10 @@ header i {
 
 /* Main Styles */
 main {
-  margin-top: 50px;
-  height: calc(100vh - 300px);
+  height: calc(100vh - 253px);
   width: 100%;
   max-width: 1500px;
-  margin: 50px auto 0 auto;
+  margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -118,7 +127,6 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 .control-panel {
@@ -143,8 +151,33 @@ footer {
 }
 
 /* Media Queries */
-@media screen and (min-width: 724px) {
+@media screen and (min-width: 1024px) {
+  header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
 
+  header h1 {
+    position: absolute;
+    left: 35px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  header > * {
+    padding-right: 35px;
+    font-size: 25px;
+  }
+
+  .select {
+    font-size: 25px;
+  }
+  
+  main {
+    height: calc(100vh - 200px);
+  }
 }
 
 /* Animations */

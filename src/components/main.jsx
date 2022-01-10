@@ -1,19 +1,26 @@
 import React from 'react';
+
+// import components
 import Node from '../components/node.jsx';
+
+// import algorithms 
 import AStar from '../algorithms/pathfinding/astar.js';
 import BreadthFirst from '../algorithms/pathfinding/breadth-first.js';
 import DepthFirst from '../algorithms/pathfinding/depth-first.js'
 import Dijkstras from '../algorithms/pathfinding/dijkstras.js'
 import Swarm from '../algorithms/pathfinding/swarm.js'
 
+// import maze algorithms
+import randomMaze from '../algorithms/maze/random.js';
+
 class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             algorithm: '',
-            speed: 0,
-            type: '',
             nodes: [],
+            maze: '',
+            speed: 0,
             start: {},
             end: {}
         }
@@ -97,20 +104,35 @@ class Main extends React.Component {
         return (
             <div className='Main'>
                 <header>
-                    <h1>Pathfinder</h1>
+                    <h1>Pathfinding Visualizer</h1>
 
-                    <select onChange={(e) => { 
-                        this.setState({algorithm: e.target.value})
-                    }}> 
-                        <option value=''>Algorithm</option>
-                        <option value='Dijkstras'>Dijkstras</option>
-                        <option value='A*'>A*</option>   
-                        <option value='Swarm'>Swarm</option>   
-                        <option value='Breadth'>Breadth First</option>                       
-                        <option value='Depth'>Depth First</option>                   
-                    </select> 
+                    <div className='algorithm select'>
+                        <select onChange={(e) => { 
+                            this.setState({algorithm: e.target.value})
+                        }}> 
+                            <option value=''>Algorithm</option>
+                            <option value='Dijkstras'>Dijkstras</option>
+                            <option value='A*'>A*</option>   
+                            <option value='Swarm'>Swarm</option>   
+                            <option value='Breadth'>Breadth First</option>                       
+                            <option value='Depth'>Depth First</option>      
+                        </select> 
 
-                    <i className="fas fa-chevron-down"></i>
+                        <i className="fas fa-chevron-down"></i>
+                    </div>
+
+                    <div className='maze select'>
+                        <select onChange={(e) => { 
+                            randomMaze(this);
+                        }}> 
+                            <option value=''>Maze</option>
+                            <option value='Backtracking'>Backtracking</option>
+                            <option value='Division'>Division</option>   
+                            <option value='Random'>Random</option>                  
+                        </select> 
+
+                        <i className="fas fa-chevron-down"></i>
+                    </div>
                 </header>
 
                 <main className='main'>
@@ -133,11 +155,6 @@ class Main extends React.Component {
 
                 <footer>
                     <div className='control-panel'>
-                        <p>Speed of the search:</p>
-                        <input type="range" min='100' max='1000' step='50' defaultValue='550' onChange={(e) => {
-                            this.setState({speed: e.target.value})
-                        }}/>
-
                         <input type="button" value='Search' onClick={() => {
                             switch(this.state.algorithm) {
                                 case 'A*':        AStar       (this, this.state.start, this.state.end); break;
