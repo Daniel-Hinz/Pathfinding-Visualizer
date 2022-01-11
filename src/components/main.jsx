@@ -11,6 +11,7 @@ import Dijkstras from '../algorithms/pathfinding/dijkstras.js'
 import Swarm from '../algorithms/pathfinding/swarm.js'
 
 // import maze algorithms
+import backtrack from '../algorithms/maze/backtrack.js'
 import randomMaze from '../algorithms/maze/random.js';
 
 class Main extends React.Component {
@@ -26,6 +27,7 @@ class Main extends React.Component {
         }
 
         this.generateGrid = this.generateGrid.bind(this);
+        this.blackoutGrid = this.blackoutGrid.bind(this);
         this.updateNode = this.updateNode.bind(this);
     }
 
@@ -71,7 +73,38 @@ class Main extends React.Component {
         });
     }
 
-    updateNode(newRow, newCol, value, visited) {
+    blackoutGrid() {
+        let main = document.querySelector('.main');
+        let numCols = Math.floor(main.offsetWidth / 30) - 2;
+        let numRows = Math.floor(main.offsetHeight / 30) - 2;
+        
+        let grid = this.state.nodes;
+        for (let row = 0; row < numRows; ++row) {
+            for (let col = 0; col < numCols; ++col) {
+                if (row === this.state.start.row && col === this.state.start.col)
+                    continue;
+
+                if (row === this.state.end.row && col === this.state.end.col)
+                    continue;
+
+                grid[row][col] = {
+                    visited: false,
+                    type: 'barrier',
+                    weight: 1,
+                    fn: 9999,
+                    gn: 9999,
+                    row: row,
+                    col: col
+                }
+            }
+        }
+    
+        this.setState({
+            nodes: grid
+        });
+    }
+
+    updateNode(newRow, newCol, type, visited) {
 
         let main = document.querySelector('.main');
         let numCols = Math.floor(main.offsetWidth / 30) - 2;
@@ -83,7 +116,7 @@ class Main extends React.Component {
                 if (row === newRow && col === newCol)
                     grid[row][col] = {
                         visited: visited,
-                        type: value,
+                        type: type,
                         weight: 1,
                         fn: 9999,
                         gn: 9999,
@@ -94,8 +127,8 @@ class Main extends React.Component {
         }
 
         this.setState({
-            start: (value === 'start') ? grid[newRow][newCol] : this.state.start,
-            end: (value === 'end') ? grid[newRow][newCol] : this.state.end,
+            start: (type === 'start') ? grid[newRow][newCol] : this.state.start,
+            end: (type === 'end') ? grid[newRow][newCol] : this.state.end,
             nodes: grid 
         });
     }
@@ -123,10 +156,15 @@ class Main extends React.Component {
 
                     <div className='maze select'>
                         <select onChange={(e) => { 
-                            randomMaze(this);
+                            switch(e.target.value) {
+                                case 'Backtrack': this.blackoutGrid(); backtrack(this, this.state.nodes[0][0]); break;
+                                case 'Division': break;
+                                case 'Random': randomMaze(this); break;
+                                default: ;
+                            }
                         }}> 
                             <option value=''>Maze</option>
-                            <option value='Backtracking'>Backtracking</option>
+                            <option value='Backtrack'>Backtracking</option>
                             <option value='Division'>Division</option>   
                             <option value='Random'>Random</option>                  
                         </select> 
