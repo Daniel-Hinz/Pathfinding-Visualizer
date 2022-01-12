@@ -14,7 +14,7 @@ export default function DepthFirst(component, start, end) {
 
         // update graph
         setTimeout(() => {
-            component.updateNode(current.row, current.col, 'visited', true);
+            component.setNode(current.row, current.col, 'type', 'visited', 'visited', true);
         }, 25 * count++);
 
         // check if you are at destination
@@ -27,6 +27,7 @@ export default function DepthFirst(component, start, end) {
 
             // get neighbors and add to queue
             let neighbors = getNeighbors(grid, current);
+            console.log(neighbors);
             for (let i = 0; i < neighbors.length; ++i) {
                 if (grid[neighbors[i].row][neighbors[i].col].visited !== true)
                     queue.unshift(grid[neighbors[i].row][neighbors[i].col]);

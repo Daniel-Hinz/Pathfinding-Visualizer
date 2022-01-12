@@ -28,9 +28,8 @@ class Main extends React.Component {
         }
 
         this.generateGrid = this.generateGrid.bind(this);
-        this.setVisited = this.setVisited.bind(this);
         this.setGrid      = this.setGrid.bind(this);
-        this.updateNode   = this.updateNode.bind(this);
+        this.setNode      = this.setNode.bind(this);
     }
 
     componentDidMount() {
@@ -53,8 +52,6 @@ class Main extends React.Component {
             for (let col = 0; col < numCols; ++col) {
                 nodeRow.push({
                     visited: false,
-                    fn: 9999,
-                    gn: 9999,
                     row: row,
                     col: col,
                     type: 
@@ -74,81 +71,54 @@ class Main extends React.Component {
             nodes: grid
         });
     }
-    
-    setVisited() {
+
+    // sets the entire grid to a paticular value
+    setGrid(attr, value) {
         let grid = [...this.state.nodes];
-        for(let i = 0; i < this.state.nodes.length; ++i) {
-            for (let j = 0; j < this.state.nodes[0].length; ++j) {
-                
-                let node = {...grid[i][j]};
-                node.visited = (node.type !== 'barrier') ? false : true; 
-                grid[i][j] = node;
-            }
-        }
-
-        this.setState({ nodes: grid })
-    }
-
-    setGrid(value) {
-        let main = document.querySelector('.main');
-        let numCols = Math.floor(main.offsetWidth / 30) - 2;
-        let numRows = Math.floor(main.offsetHeight / 30) - 2;
-        
-        let grid = this.state.nodes;
-        for (let row = 0; row < numRows; ++row) {
-            for (let col = 0; col < numCols; ++col) {
+        for (let row = 0; row < this.state.nodes.length; ++row) {
+            for (let col = 0; col < this.state.nodes[0].length; ++col) {
                 if (row === this.state.start.row && col === this.state.start.col)
                     continue;
-
+                
                 if (row === this.state.end.row && col === this.state.end.col)
                     continue;
+                
+                let node = {...grid[row][col]}
 
-                grid[row][col] = {
-                    visited: false,
-                    type: value,
-                    weight: 1,
-                    fn: 9999,
-                    gn: 9999,
-                    row: row,
-                    col: col
+                if (attr === 'visited')
+                    node[attr] = (node.type === 'barrier') ? true : false; 
+                else 
+                    node[attr] = value;
+
+                grid[row][col] = node;
+            }
+        }
+    
+        this.setState({ nodes: grid });
+    }
+
+    // set a particular node to a certain value
+    setNode(newRow, newCol, attr, val1, attr2, val2) {
+        let grid = [...this.state.nodes];
+        for (let row = 0; row < this.state.nodes.length; ++row) {
+            for (let col = 0; col < this.state.nodes[0].length; ++col) {
+                if (row === newRow && col === newCol) {
+                    let node = {...grid[row][col]}
+                    node[attr] = val1;
+                    node[attr2] = val2;
+                    grid[row][col] = node;
                 }
             }
         }
-    
-        this.setState({
-            nodes: grid
-        });
-    }
-
-    updateNode(newRow, newCol, type, visited) {
-
-        let main = document.querySelector('.main');
-        let numCols = Math.floor(main.offsetWidth / 30) - 2;
-        let numRows = Math.floor(main.offsetHeight / 30) - 2;
-        
-        let grid = this.state.nodes;
-        for (let row = 0; row < numRows; ++row) {
-            for (let col = 0; col < numCols; ++col) {
-                if (row === newRow && col === newCol)
-                    grid[row][col] = {
-                        visited: visited,
-                        type: type,
-                        weight: 1,
-                        fn: 9999,
-                        gn: 9999,
-                        row: row,
-                        col: col
-                    }
-            }
-        }
 
         this.setState({
-            start: (type === 'start') ? grid[newRow][newCol] : this.state.start,
-            end: (type === 'end') ? grid[newRow][newCol] : this.state.end,
+            start: (val1 === 'start') ? grid[newRow][newCol] : this.state.start,
+            end: (val1 === 'end') ? grid[newRow][newCol] : this.state.end,
             nodes: grid 
         });
     }
 
+    // render method
     render() {
         return (
             <div className='Main'>
@@ -173,11 +143,12 @@ class Main extends React.Component {
                     <div className='maze select'>
                         <select onChange={(e) => { 
                             switch(e.target.value) {
-                                case 'Backtrack': this.setGrid('barrier'); backtrack(this, this.state.nodes[0][0]); this.setVisited(); break;
-                                case 'Division':  this.setGrid(''); divison(this); break;
-                                case 'Random':    this.setGrid(''); randomMaze(this); break;
+                                case 'Backtrack': this.setGrid('type', 'barrier'); backtrack(this, this.state.nodes[0][0]); break;
+                                case 'Division':  this.setGrid('type', '');        divison(this); break;
+                                case 'Random':    this.setGrid('type', '');        randomMaze(this); break;
                                 default: ;
                             }
+                            this.setGrid('visited', true);
                         }}> 
                             <option value=''>Maze</option>
                             <option value='Backtrack'>Backtracking</option>
@@ -194,7 +165,7 @@ class Main extends React.Component {
                         this.state.nodes.map((nodeRow, i) => 
                             <div className='node-row' key={i}> {
                                 nodeRow.map((node, j) => 
-                                    <Node updateNode={(row,col,val, visit) => this.updateNode(row,col,val,visit)}
+                                    <Node setNode={(row,col,type,val) => this.setNode(row,col,type,val)}
                                           row={node.row} 
                                           col={node.col} 
                                           type={node.type} 

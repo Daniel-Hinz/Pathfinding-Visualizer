@@ -7,11 +7,11 @@ class Node extends React.Component {
             // Start Node Element
             case 'start':   
                 return (
-                    <div className={'start node'} type={this.props.type}>
-                        <i  className="start fas fa-chevron-right" 
-                            draggable={true} 
-                            onDragStart={(e) => {e.dataTransfer.setData('type', this.props.type)}}
-                            onDrag={() => {this.props.updateNode(this.props.row, this.props.col, '', false)}}>
+                    <div    className =   {this.props.type + ' node'}>
+                        <i  className =   {"start fas fa-chevron-right" }
+                            draggable =   {true} 
+                            onDragStart = {(e) => {e.dataTransfer.setData('type', this.props.type)}}
+                            onDrag=       {() => {this.props.setNode(this.props.row, this.props.col, 'type', '')}}>
                         </i>
                     </div>
                 );
@@ -19,11 +19,11 @@ class Node extends React.Component {
             // End Node Element
             case 'end':     
                 return (
-                    <div className={'end node'} type={this.props.type}>
-                        <i  className="end far fa-dot-circle" 
-                            draggable={true} 
-                            onDragStart={(e) => {e.dataTransfer.setData('type', this.props.type)}}
-                            onDrag={() => {this.props.updateNode(this.props.row, this.props.col, '', false)}}> 
+                    <div    className   = {this.props.type + ' node'}>
+                        <i  className   = {"end far fa-dot-circle"} 
+                            draggable   = {true} 
+                            onDragStart = {(e) => {e.dataTransfer.setData('type', this.props.type)}}
+                            onDrag      = {()  => {this.props.setNode(this.props.row, this.props.col, 'type', '')}}>
                         </i>
                     </div>
                 ); 
@@ -31,25 +31,32 @@ class Node extends React.Component {
             // Barrier Node Element
             case 'barrier': 
                 return (
-                    <div className='barrier node' type={this.props.type}
-                         onClick={() => {this.props.updateNode(this.props.row, this.props.col, '', true)}}>
+                    <div className = {this.props.type + ' node'}
+                         onClick   = {() => {this.props.setNode(this.props.row, this.props.col, 'type', '')}}>
                     </div>
                 ); 
 
             case 'visited': 
                 return (
-                    <div className='visited node' type={this.props.type}>
-
+                    <div className = {this.props.type + ' node'}>
                     </div>
                 ); 
 
             // Default Node Element
             default: return (
-                <div className={'node'} type={this.props.type} 
-                     onMouseEnter={(e) => {if (e.buttons === 1) this.props.updateNode(this.props.row, this.props.col, 'barrier', true)}}
-                     onClick={() => {this.props.updateNode(this.props.row, this.props.col, 'barrier', true)}}
-                     onDragOver={(e) => {e.preventDefault()}}
-                     onDrop ={(e) => {this.props.updateNode(this.props.row, this.props.col, e.dataTransfer.getData('type'), false)}}>
+                <div className    = {this.props.visited + ' ' + this.props.type + ' node'} 
+                     onDragOver   = {(e) => {e.preventDefault()}}
+                     onDrop       = {(e) => {
+                            this.props.setNode(this.props.row, this.props.col, 'type', e.dataTransfer.getData('type'))
+                        }}
+                     onMouseEnter = {(e) => {if (e.buttons === 1) {
+                            this.props.setNode(this.props.row, this.props.col, 'type', 'barrier');
+                            this.props.setNode(this.props.row, this.props.col, 'visited', true);
+                        }}}
+                     onClick      = {()  => {
+                            this.props.setNode(this.props.row, this.props.col, 'type', 'barrier');
+                            this.props.setNode(this.props.row, this.props.col, 'visited', true);
+                        }}>
                 </div>
             );
         }

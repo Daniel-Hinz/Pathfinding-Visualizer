@@ -4,7 +4,7 @@ export default function BreadthFirst(component, start, end) {
     let count = 0;
 
     // instantiate grid
-    grid[start.row][start.col].visited = true;
+    component.setNode(start.row, start.col, 'visited', true);
     queue.push(start);
 
     // start bfs
@@ -15,7 +15,7 @@ export default function BreadthFirst(component, start, end) {
 
         // update graph
         setTimeout(() => {
-            component.updateNode(current.row, current.col, 'visited', true);
+            component.setNode(current.row, current.col, 'type', 'visited', 'visited', true);
         }, 25 * count++);
   
         // return if at destination
@@ -28,7 +28,7 @@ export default function BreadthFirst(component, start, end) {
 
             // mark visited locations and go to unvisited neighbors
             if (grid[neighbors[i].row][neighbors[i].col].visited !== true) {
-                grid[neighbors[i].row][neighbors[i].col].visited = true;
+                component.setNode(neighbors[i].row, neighbors[i].col, 'visited', true);
                 queue.push(neighbors[i]);
             }
         }

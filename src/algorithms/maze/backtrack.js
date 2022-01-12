@@ -2,7 +2,7 @@ export default function backtrack(component, current) {
 
     // initalize update current node
     let grid = component.state.nodes;
-    component.updateNode(current.row, current.col, '', true);
+    component.setNode(current.row, current.col, 'type', '', 'visited', true);
 
     // get neighbors
     let neighbors = getNeighbors(grid, current);
@@ -14,8 +14,8 @@ export default function backtrack(component, current) {
 
         // remove barrier between neighbor
         let barrier = getBarrier(grid, current.row, current.col, neighbor.row, neighbor.col);
-        component.updateNode(barrier.row, barrier.col, '', true);
-
+        component.setNode(barrier.row, barrier.col, 'type', '', 'visited', true);
+        
         // recursively call backtrack
         backtrack(component, neighbor);
     }
