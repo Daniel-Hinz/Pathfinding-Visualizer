@@ -13,6 +13,7 @@ import Swarm from '../algorithms/pathfinding/swarm.js'
 // import maze algorithms
 import backtrack from '../algorithms/maze/backtrack.js'
 import randomMaze from '../algorithms/maze/random.js';
+import divison from '../algorithms/maze/division.js';
 
 class Main extends React.Component {
     constructor(props) {
@@ -27,8 +28,9 @@ class Main extends React.Component {
         }
 
         this.generateGrid = this.generateGrid.bind(this);
-        this.blackoutGrid = this.blackoutGrid.bind(this);
-        this.updateNode = this.updateNode.bind(this);
+        this.setVisited = this.setVisited.bind(this);
+        this.setGrid      = this.setGrid.bind(this);
+        this.updateNode   = this.updateNode.bind(this);
     }
 
     componentDidMount() {
@@ -72,8 +74,22 @@ class Main extends React.Component {
             nodes: grid
         });
     }
+    
+    setVisited() {
+        let grid = [...this.state.nodes];
+        for(let i = 0; i < this.state.nodes.length; ++i) {
+            for (let j = 0; j < this.state.nodes[0].length; ++j) {
+                
+                let node = {...grid[i][j]};
+                node.visited = (node.type !== 'barrier') ? false : true; 
+                grid[i][j] = node;
+            }
+        }
 
-    blackoutGrid() {
+        this.setState({ nodes: grid })
+    }
+
+    setGrid(value) {
         let main = document.querySelector('.main');
         let numCols = Math.floor(main.offsetWidth / 30) - 2;
         let numRows = Math.floor(main.offsetHeight / 30) - 2;
@@ -89,7 +105,7 @@ class Main extends React.Component {
 
                 grid[row][col] = {
                     visited: false,
-                    type: 'barrier',
+                    type: value,
                     weight: 1,
                     fn: 9999,
                     gn: 9999,
@@ -157,9 +173,9 @@ class Main extends React.Component {
                     <div className='maze select'>
                         <select onChange={(e) => { 
                             switch(e.target.value) {
-                                case 'Backtrack': this.blackoutGrid(); backtrack(this, this.state.nodes[0][0]); break;
-                                case 'Division': break;
-                                case 'Random': randomMaze(this); break;
+                                case 'Backtrack': this.setGrid('barrier'); backtrack(this, this.state.nodes[0][0]); this.setVisited(); break;
+                                case 'Division':  this.setGrid(''); divison(this); break;
+                                case 'Random':    this.setGrid(''); randomMaze(this); break;
                                 default: ;
                             }
                         }}> 

@@ -38,7 +38,7 @@ export default function DepthFirst(component, start, end) {
 function getNeighbors(grid, node) {
     let neighbors = [];
 
-    if (node.row-1 >= 0)
+    if (node.row > 0)
         neighbors.push(grid[node.row-1][node.col]);
 
     if (node.col+1 < grid[0].length)
@@ -47,7 +47,7 @@ function getNeighbors(grid, node) {
     if (node.row+1 < grid.length)
         neighbors.push(grid[node.row+1][node.col]);
 
-    if (node.col-1 >= 0)
+    if (node.col > 0)
         neighbors.push(grid[node.row][node.col-1]);
         
     return neighbors;
