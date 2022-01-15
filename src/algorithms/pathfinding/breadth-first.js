@@ -20,7 +20,7 @@ export default function BreadthFirst(component, start, end) {
   
         // return if at destination
         if (current.row === end.row && current.col === end.col)
-            return console.log('worked');
+            return;
 
         // get neighbors
         let neighbors = getNeighbors(grid, current);

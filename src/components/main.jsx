@@ -52,6 +52,8 @@ class Main extends React.Component {
             for (let col = 0; col < numCols; ++col) {
                 nodeRow.push({
                     visited: false,
+                    fscore: 0,
+                    gscore: 0,
                     row: row,
                     col: col,
                     type: 
@@ -77,12 +79,6 @@ class Main extends React.Component {
         let grid = [...this.state.nodes];
         for (let row = 0; row < this.state.nodes.length; ++row) {
             for (let col = 0; col < this.state.nodes[0].length; ++col) {
-                if (row === this.state.start.row && col === this.state.start.col)
-                    continue;
-                
-                if (row === this.state.end.row && col === this.state.end.col)
-                    continue;
-                
                 let node = {...grid[row][col]}
 
                 if (attr === 'visited')
@@ -98,13 +94,13 @@ class Main extends React.Component {
     }
 
     // set a particular node to a certain value
-    setNode(newRow, newCol, attr, val1, attr2, val2) {
+    setNode(newRow, newCol, attr1, val1, attr2, val2) {
         let grid = [...this.state.nodes];
         for (let row = 0; row < this.state.nodes.length; ++row) {
             for (let col = 0; col < this.state.nodes[0].length; ++col) {
                 if (row === newRow && col === newCol) {
                     let node = {...grid[row][col]}
-                    node[attr] = val1;
+                    node[attr1] = val1;
                     node[attr2] = val2;
                     grid[row][col] = node;
                 }
@@ -165,12 +161,12 @@ class Main extends React.Component {
                         this.state.nodes.map((nodeRow, i) => 
                             <div className='node-row' key={i}> {
                                 nodeRow.map((node, j) => 
-                                    <Node setNode={(row,col,type,val) => this.setNode(row,col,type,val)}
-                                          row={node.row} 
-                                          col={node.col} 
-                                          type={node.type} 
-                                          visited={node.visited}  
-                                          key={j}>        
+                                    <Node setNode = {(row,col,type,val) => this.setNode(row,col,type,val)}
+                                          row     = {node.row} 
+                                          col     = {node.col} 
+                                          type    = {node.type} 
+                                          visited = {node.visited}  
+                                          key     = {j}>        
                                     </Node>
                                 )}
                             </div>
