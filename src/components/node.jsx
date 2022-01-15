@@ -7,11 +7,11 @@ class Node extends React.Component {
             // Start Node Element
             case 'start':   
                 return (
-                    <div    className =   {this.props.type + ' node'}>
-                        <i  className =   {"start fas fa-chevron-right" }
-                            draggable =   {true} 
+                    <div    className   = {this.props.type + ' node'}>
+                        <i  className   = {"start fas fa-chevron-right" }
+                            draggable   = {true} 
                             onDragStart = {(e) => {e.dataTransfer.setData('type', this.props.type)}}
-                            onDrag=       {() => {this.props.setNode(this.props.row, this.props.col, 'type', '')}}>
+                            onDrag      = {() => {this.props.setNode(this.props.row, this.props.col, 'type', '')}}>
                         </i>
                     </div>
                 );
@@ -32,7 +32,10 @@ class Node extends React.Component {
             case 'barrier': 
                 return (
                     <div className = {this.props.type + ' node'}
-                         onClick   = {() => {this.props.setNode(this.props.row, this.props.col, 'type', '')}}>
+                         onClick   = {() => {
+                                this.props.setNode(this.props.row, this.props.col, 'type', '')
+                                this.props.setNode(this.props.row, this.props.col, 'visited', false)
+                            }}>
                     </div>
                 ); 
 
@@ -44,7 +47,7 @@ class Node extends React.Component {
 
             // Default Node Element
             default: return (
-                <div className    = {this.props.visited + ' ' + this.props.type + ' node'} 
+                <div className    = {this.props.type + ' node'} 
                      onDragOver   = {(e) => {e.preventDefault()}}
                      onDrop       = {(e) => {
                             this.props.setNode(this.props.row, this.props.col, 'type', e.dataTransfer.getData('type'))

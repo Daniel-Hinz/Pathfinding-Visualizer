@@ -13,7 +13,7 @@ import Swarm from '../algorithms/pathfinding/swarm.js'
 // import maze algorithms
 import backtrack from '../algorithms/maze/backtrack.js'
 import randomMaze from '../algorithms/maze/random.js';
-import divison from '../algorithms/maze/division.js';
+import division from '../algorithms/maze/division.js';
 
 class Main extends React.Component {
     constructor(props) {
@@ -143,9 +143,9 @@ class Main extends React.Component {
                     <div className='maze select'>
                         <select onChange={(e) => { 
                             switch(e.target.value) {
-                                case 'Backtrack': this.setGrid('type', 'barrier'); backtrack(this, this.state.nodes[0][0]); break;
-                                case 'Division':  this.setGrid('type', '');        divison(this); break;
-                                case 'Random':    this.setGrid('type', '');        randomMaze(this); break;
+                                case 'Backtrack': this.setGrid('type', 'barrier'); backtrack (this, this.state.nodes[0][0]);    break;
+                                case 'Division':  this.setGrid('type', '');        division  (this, this.state.nodes, 0, 0, 0); break;
+                                case 'Random':    this.setGrid('type', '');        randomMaze(this);                            break;
                                 default: ;
                             }
                             this.setGrid('visited', true);
