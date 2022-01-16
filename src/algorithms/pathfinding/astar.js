@@ -7,8 +7,8 @@ function AStar(component, start, end) {
     let count    = 0;
 
     // set node values
-    component.setGrid('fscore', 1000);
-    component.setGrid('gscore', 1000);
+    component.setGrid('fscore', Number.MAX_VALUE);
+    component.setGrid('gscore', Number.MAX_VALUE);
 
     // initalize search
     component.setNode(start.row, start.col, 'fscore', getDistance(start, end));
@@ -43,8 +43,9 @@ function AStar(component, start, end) {
             // traverse to neighbor with lowest fscore
             if (tent_gscore < neighbors[i].gscore) {
 
+                // update nodes
                 neighbors[i].gscore = tent_gscore;
-                neighbors[i].fscore = tent_gscore + getDistance(neighbors[i], end)
+                neighbors[i].fscore = tent_gscore + getDistance(neighbors[i], end);
 
                 // add neighbor to queue
                 if (!open.includes(neighbors[i]))

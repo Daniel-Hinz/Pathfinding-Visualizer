@@ -52,8 +52,6 @@ class Main extends React.Component {
             for (let col = 0; col < numCols; ++col) {
                 nodeRow.push({
                     visited: false,
-                    fscore: 0,
-                    gscore: 0,
                     row: row,
                     col: col,
                     type: 
@@ -139,9 +137,9 @@ class Main extends React.Component {
                     <div className='maze select'>
                         <select onChange={(e) => { 
                             switch(e.target.value) {
-                                case 'Backtrack': this.setGrid('type', 'barrier'); backtrack (this, this.state.nodes[0][0]);    break;
-                                case 'Division':  this.setGrid('type', '');        division  (this, this.state.nodes, 0, 0, 0); break;
-                                case 'Random':    this.setGrid('type', '');        randomMaze(this);                            break;
+                                case 'Backtrack': this.setGrid('type', 'barrier'); backtrack (this, this.state.nodes[0][0]); break;
+                                case 'Division':  this.setGrid('type', '');        division  (this, this.state.nodes,0,0,0); break;
+                                case 'Random':    this.setGrid('type', '');        randomMaze(this);                         break;
                                 default: ;
                             }
                             this.setGrid('visited', true);
