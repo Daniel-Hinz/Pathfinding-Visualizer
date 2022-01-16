@@ -22,9 +22,7 @@ export default function division(component, grid, row, col, old) {
         }
 
         // get gap node
-        let gap = 0;
-        if (col-1 < 0 || grid[0].length > component.state.nodes[0][component.state.nodes.length-1].col)
-            gap = Math.floor(Math.random() * grid[0].length);
+        let gap =  Math.floor(Math.random() * grid[0].length);
 
         // draw the line from starting col
         for (let i = col; i < col + grid[0].length; ++i) {
@@ -72,9 +70,7 @@ export default function division(component, grid, row, col, old) {
         }
 
         // get gap node
-        let gap = 0;
-        if (row-1 < 0 || grid.length > component.state.nodes[component.state.nodes.length-1][0].row) 
-            gap = Math.floor(Math.random() * grid.length);
+        let gap = Math.floor(Math.random() * grid.length);
 
         // draw line from start row
         for (let i = row; i < row + grid.length; ++i) {

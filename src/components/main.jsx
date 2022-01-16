@@ -43,8 +43,8 @@ class Main extends React.Component {
 
     generateGrid() {
         let main = document.querySelector('.main');
-        let numCols = Math.floor(main.offsetWidth / 30) - 2;
-        let numRows = Math.floor(main.offsetHeight / 30) - 2;
+        let numCols = ((Math.floor(main.offsetWidth / 30) - 2) % 2 === 1) ? (Math.floor(main.offsetWidth / 30) - 2) : (Math.floor(main.offsetWidth / 30) - 2) - 1;
+        let numRows = ((Math.floor(main.offsetHeight / 30) - 2) % 2 === 1) ? (Math.floor(main.offsetHeight / 30) - 2) : (Math.floor(main.offsetHeight / 30) - 2) - 1;
         
         let grid = [];
         for (let row = 0; row < numRows; ++row) {
@@ -79,7 +79,9 @@ class Main extends React.Component {
             for (let col = 0; col < this.state.nodes[0].length; ++col) {
                 let node = {...grid[row][col]}
 
-                if (attr === 'visited')
+                if (attr === 'type' && (grid[row][col].type === 'start' || grid[row][col].type === 'end'))
+                    continue;
+                else if (attr === 'visited')
                     node[attr] = (node.type === 'barrier') ? true : false; 
                 else 
                     node[attr] = value;
@@ -98,8 +100,8 @@ class Main extends React.Component {
             for (let col = 0; col < this.state.nodes[0].length; ++col) {
                 if (row === newRow && col === newCol) {
                     let node = {...grid[row][col]}
-                    node[attr1] = val1;
-                    node[attr2] = val2;
+                    node[attr1]    = val1;
+                    node[attr2]    = val2;
                     grid[row][col] = node;
                 }
             }
@@ -107,7 +109,7 @@ class Main extends React.Component {
 
         this.setState({
             start: (val1 === 'start') ? grid[newRow][newCol] : this.state.start,
-            end: (val1 === 'end') ? grid[newRow][newCol] : this.state.end,
+            end:   (val1 === 'end'  ) ? grid[newRow][newCol] : this.state.end,
             nodes: grid 
         });
     }
@@ -125,8 +127,7 @@ class Main extends React.Component {
                         }}> 
                             <option value=''>Algorithm</option>
                             <option value='Dijkstras'>Dijkstras</option>
-                            <option value='A*'>A*</option>   
-                            <option value='Swarm'>Swarm</option>   
+                            <option value='A*'>A* Search</option>    
                             <option value='Breadth'>Breadth First</option>                       
                             <option value='Depth'>Depth First</option>      
                         </select> 
@@ -139,8 +140,7 @@ class Main extends React.Component {
                             switch(e.target.value) {
                                 case 'Backtrack': this.setGrid('type', 'barrier'); backtrack (this, this.state.nodes[0][0]); break;
                                 case 'Division':  this.setGrid('type', '');        division  (this, this.state.nodes,0,0,0); break;
-                                case 'Random':    this.setGrid('type', '');        randomMaze(this);                         break;
-                                default: ;
+                                case 'Random':    this.setGrid('type', '');        randomMaze(this, this.state.nodes);       break;
                             }
                             this.setGrid('visited', true);
                         }}> 
@@ -176,11 +176,11 @@ class Main extends React.Component {
                     <div className='control-panel'>
                         <input type="button" value='Search' onClick={() => {
                             switch(this.state.algorithm) {
-                                case 'A*':        AStar       (this, this.state.start, this.state.end); break;
-                                case 'Breadth':   BreadthFirst(this, this.state.start, this.state.end); break;
-                                case 'Depth':     DepthFirst  (this, this.state.start, this.state.end); break;
+                                case 'A*'       : AStar       (this, this.state.start, this.state.end); break;
+                                case 'Breadth'  : BreadthFirst(this, this.state.start, this.state.end); break;
+                                case 'Depth'    : DepthFirst  (this, this.state.start, this.state.end); break;
                                 case 'Dijkstras': Dijkstras   (this, this.state.start, this.state.end); break;
-                                case 'Swarm':     Swarm       (this, this.state.start, this.state.end); break;
+                                case 'Swarm'    : Swarm       (this, this.state.start, this.state.end); break;
                                 default: alert('Please select an algorithm');
                             }
                         }}/>

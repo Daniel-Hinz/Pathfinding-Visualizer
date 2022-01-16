@@ -3,7 +3,6 @@ function AStar(component, start, end) {
 
     // initialize variables
     let open     = [];
-    let camefrom = [];
     let count    = 0;
 
     // set node values
@@ -59,10 +58,10 @@ function AStar(component, start, end) {
 function getNeighbors(grid, node) {
     let neighbors = [];
 
-    if (node.row - 1 > 0 && grid[node.row-1][node.col].visited === false)
+    if (node.row > 0 && grid[node.row-1][node.col].visited === false)
         neighbors.push(grid[node.row-1][node.col]);
 
-    if (node.col - 1 > 0 && grid[node.row][node.col-1].visited === false)
+    if (node.col > 0 && grid[node.row][node.col-1].visited === false)
         neighbors.push(grid[node.row][node.col-1]);
 
     if (node.row + 1 < grid.length && grid[node.row+1][node.col].visited === false)
@@ -77,11 +76,6 @@ function getNeighbors(grid, node) {
 // returns distance between two elements
 function getDistance(a, b) {
     return Math.hypot(a.row - b.row, a.col - b.col);
-}
-
-// builds best path 
-function reconstruct(end) {
-
 }
 
 export default AStar;

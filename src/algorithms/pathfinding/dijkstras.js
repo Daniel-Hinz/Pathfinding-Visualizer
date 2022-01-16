@@ -22,20 +22,24 @@ function Dijkstras(component, start, end) {
         // sort queue by distance (asc)
         queue.sort((first, second) => {
             return first.dist - second.dist;
-        })
+        });
 
-        // get element with lowest distance, update it, and remove it from queue
+        // get element with lowest distance and remove it from queue
         let current = queue.shift();
+
+        // return if at destination trapped
+        if ((current.row === end.row && current.col === end.col) || current.dist === Number.MAX_VALUE) 
+            return console.log("finished");
+
+        // update node
         setTimeout(() => {
             component.setNode(current.row, current.col, 'type', 'visited', 'visited', true);
         }, 25 * count++);
 
-        // return if at destination
-        if (current.row === end.row && current.col === end.col) 
-            return console.log("reached");
-
-        // check each neighbor of current
+        // get neighbors of current, return if none
         let neighbors = getNeighbors(component.state.nodes, current);
+
+        // evaluate each neighbors
         for (let i = 0; i < neighbors.length; ++i) {
 
             // update distance of element with 

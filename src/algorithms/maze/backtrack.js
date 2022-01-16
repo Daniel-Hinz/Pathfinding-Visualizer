@@ -34,16 +34,16 @@ function getBarrier(grid, row1, col1, row2, col2){
 function getNeighbor(grid, node) {
     let neighbors = [];
 
-    if (node.row > 0 && grid[node.row-2][node.col].visited !== true && grid[node.row-2][node.col].type !== 'start')
+    if (node.row > 0 && grid[node.row-2][node.col].visited !== true)
         neighbors.push(grid[node.row-2][node.col]);
 
-    if (node.col+2 < grid[0].length && grid[node.row][node.col+2].visited !== true && grid[node.row][node.col+2].type !== 'start')
+    if (node.col+2 < grid[0].length && grid[node.row][node.col+2].visited !== true)
         neighbors.push(grid[node.row][node.col+2]);
 
-    if (node.row+2 < grid.length && grid[node.row+2][node.col].visited !== true && grid[node.row+2][node.col].type !== 'start')
+    if (node.row+2 < grid.length && grid[node.row+2][node.col].visited !== true)
         neighbors.push(grid[node.row+2][node.col]);
 
-    if (node.col > 0 && grid[node.row][node.col-2].visited !== true && grid[node.row][node.col-2].type !== 'start')
+    if (node.col > 0 && grid[node.row][node.col-2].visited !== true)
         neighbors.push(grid[node.row][node.col-2]);
 
     return neighbors[Math.floor(Math.random() * neighbors.length)];

@@ -1,6 +1,4 @@
-export default function randomMaze(component) {
-    let grid = component.state.nodes;
-
+export default function randomMaze(component, grid) {
     for(let row = 0; row < grid.length; ++row) {
         for (let col = 0; col < grid[0].length; ++col) {
 
