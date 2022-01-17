@@ -28,13 +28,17 @@ function Dijkstras(component, start, end) {
         let current = queue.shift();
 
         // return if at destination trapped
-        if ((current.row === end.row && current.col === end.col) || current.dist === Number.MAX_VALUE) 
-            return console.log("finished");
+        if (current.dist === Number.MAX_VALUE) 
+            return console.log("trapped");
 
         // update node
         setTimeout(() => {
             component.setNode(current.row, current.col, 'type', 'visited', 'visited', true);
         }, 25 * count++);
+
+        // return if node is at destination
+        if (current.row === end.row && current.col === end.col)
+            return console.log('reached')
 
         // get neighbors of current, return if none
         let neighbors = getNeighbors(component.state.nodes, current);

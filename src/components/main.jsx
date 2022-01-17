@@ -4,16 +4,15 @@ import React from 'react';
 import Node from '../components/node.jsx';
 
 // import algorithms 
-import AStar from '../algorithms/pathfinding/astar.js';
+import AStar        from '../algorithms/pathfinding/astar.js';
 import BreadthFirst from '../algorithms/pathfinding/breadth-first.js';
-import DepthFirst from '../algorithms/pathfinding/depth-first.js'
-import Dijkstras from '../algorithms/pathfinding/dijkstras.js'
-import Swarm from '../algorithms/pathfinding/swarm.js'
+import DepthFirst   from '../algorithms/pathfinding/depth-first.js'
+import Dijkstras    from '../algorithms/pathfinding/dijkstras.js'
 
 // import maze algorithms
-import backtrack from '../algorithms/maze/backtrack.js'
+import backtrack  from '../algorithms/maze/backtrack.js'
 import randomMaze from '../algorithms/maze/random.js';
-import division from '../algorithms/maze/division.js';
+import division   from '../algorithms/maze/division.js';
 
 class Main extends React.Component {
     constructor(props) {
@@ -141,6 +140,7 @@ class Main extends React.Component {
                                 case 'Backtrack': this.setGrid('type', 'barrier'); backtrack (this, this.state.nodes[0][0]); break;
                                 case 'Division':  this.setGrid('type', '');        division  (this, this.state.nodes,0,0,0); break;
                                 case 'Random':    this.setGrid('type', '');        randomMaze(this, this.state.nodes);       break;
+                                default: ;
                             }
                             this.setGrid('visited', true);
                         }}> 
@@ -180,7 +180,6 @@ class Main extends React.Component {
                                 case 'Breadth'  : BreadthFirst(this, this.state.start, this.state.end); break;
                                 case 'Depth'    : DepthFirst  (this, this.state.start, this.state.end); break;
                                 case 'Dijkstras': Dijkstras   (this, this.state.start, this.state.end); break;
-                                case 'Swarm'    : Swarm       (this, this.state.start, this.state.end); break;
                                 default: alert('Please select an algorithm');
                             }
                         }}/>

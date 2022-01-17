@@ -1,14 +1,17 @@
 export default function backtrack(component, current) {
 
-    // initalize update current node
+    // initalize update current node unless start/end node
     let grid = component.state.nodes;
-    component.setNode(current.row, current.col, 'type', '', 'visited', true);
+    if (current.type === 'start' || current.type === 'end')
+        component.setNode(current.row, current.col, 'type', current.type.toString(), 'visited', true);
+    else
+        component.setNode(current.row, current.col, 'type', '', 'visited', true);
 
     // get neighbor
     let neighbor = getNeighbor(grid, current);
     if(neighbor) {
     
-        // remove barrier between neighbor
+        // remove barrier between neighbor unless start/end node
         let barrier = getBarrier(grid, current.row, current.col, neighbor.row, neighbor.col);
         if (barrier.type === 'start' || barrier.type === 'end')
             component.setNode(barrier.row, barrier.col, 'type', barrier.type.toString(), 'visited', true);

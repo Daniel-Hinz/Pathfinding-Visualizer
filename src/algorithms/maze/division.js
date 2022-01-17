@@ -1,4 +1,4 @@
-export default function division(component, grid, row, col, old) {
+export default function division(component, grid, row, col) {
 
     // get orientation of the line to be drawn
     let orientation = '';
@@ -12,17 +12,15 @@ export default function division(component, grid, row, col, old) {
     // if line to be drawn is horizontal
     if (orientation === 'horz') {
 
-        // get location to split
-        let split = old;
-        while (old === split) {
-            split = (Math.floor(Math.random() * (grid.length-2)))+1;
-            
-            if (grid.length < 4)
-                break;
-        }
+        // get split location
+        let split = Math.floor(Math.random() * grid.length);
+        while (split % 2 === 0)
+            split = Math.floor(Math.random() * grid.length);
 
         // get gap node
-        let gap =  Math.floor(Math.random() * grid[0].length);
+        let gap = Math.floor(Math.random() * grid[0].length);
+        while (gap % 2 === 1)
+            gap = Math.floor(Math.random() * grid[0].length);
 
         // draw the line from starting col
         for (let i = col; i < col + grid[0].length; ++i) {
@@ -61,16 +59,14 @@ export default function division(component, grid, row, col, old) {
     } else {
 
         // get split location
-        let split = old;
-        while (old === split) {
-            split = (Math.floor(Math.random() * (grid[0].length-2)))+1;
-
-            if (grid[0].length < 4)
-                break;
-        }
+        let split = Math.floor(Math.random() * grid[0].length);
+        while (split % 2 === 0)
+            split = Math.floor(Math.random() * grid[0].length);
 
         // get gap node
         let gap = Math.floor(Math.random() * grid.length);
+        while (gap % 2 === 1)
+            gap = Math.floor(Math.random() * grid.length);
 
         // draw line from start row
         for (let i = row; i < row + grid.length; ++i) {
