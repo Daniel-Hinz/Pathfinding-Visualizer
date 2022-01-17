@@ -9,3 +9,6 @@ git clone https://github.com/Daniel-Hinz/Pathfinding-Visualizer-React.git
 npm install
 npm start
 ```
+
+### Usage
+With this project the user is able to visualize the differences in the Dijkstras, A*, Breadth First, and Depth First searching algorithms. In addition, there is also added functionality to generate mazes with Recursive Divison, Recursive Backtracking, and Random Generation. The user can select a maze and searching algorithm from the dropdowns located in the header and when the user hits search, you can see the differences in the searching algorithms. In addition, the user is able to reposition the start and end nodes, as well as draw and remove barriers by clicking/dragging their mouse on the grid.
