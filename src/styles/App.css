@@ -101,7 +101,7 @@ main {
 .barrier {
   font-size: 22.5px;
   background: var(--dark-blue);
-  outline: 0;
+  outline: 1px solid var(--dark-blue);
   cursor: pointer;
   transition: .2s;
   animation-name: add-barrier;
