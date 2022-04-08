@@ -57,7 +57,6 @@ const App = () => {
       }
       grid.push(nodeRow);
     }
-
     setStart(grid[Math.floor(numRows / 2)][Math.floor(numCols / 4)]);
     setEnd(grid[Math.floor(numRows / 2)][Math.floor(numCols / 1.33)]);
     setNodes(grid);
@@ -82,7 +81,6 @@ const App = () => {
         grid[row][col] = node;
       }
     }
-
     setNodes(grid);
   };
 
@@ -99,7 +97,6 @@ const App = () => {
         }
       }
     }
-
     setStart(val1 === "start" ? grid[newRow][newCol] : start);
     setEnd(val1 === "end" ? grid[newRow][newCol] : end);
     setNodes(grid);
