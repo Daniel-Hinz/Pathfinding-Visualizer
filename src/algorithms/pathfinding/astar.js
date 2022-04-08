@@ -1,81 +1,54 @@
+import { getDistance, getNeighbors } from "../helper";
+
 // function to perform astar algorithm
-function AStar(component, start, end) {
+const AStar = (start, end, nodes, setGrid, setNode) => {
+  // initialize variables
+  let open = [];
+  let count = 0;
 
-    // initialize variables
-    let open     = [];
-    let count    = 0;
+  // set node values
+  setGrid("fscore", Number.MAX_VALUE);
+  setGrid("gscore", Number.MAX_VALUE);
 
-    // set node values
-    component.setGrid('fscore', Number.MAX_VALUE);
-    component.setGrid('gscore', Number.MAX_VALUE);
+  // initalize search
+  setNode(start.row, start.col, "fscore", getDistance(start, end));
+  setNode(start.row, start.col, "gscore", 0);
+  open.push(nodes[start.row][start.col]);
 
-    // initalize search
-    component.setNode(start.row, start.col, 'fscore', getDistance(start, end));
-    component.setNode(start.row, start.col, 'gscore', 0);
-    open.push(component.state.nodes[start.row][start.col]);
+  // start search
+  while (open.length > 0) {
+    // sort elements by fscore (asc)
+    open.sort(function (first, second) {
+      return first.fscore - second.fscore;
+    });
 
-    // start search
-    while (open.length > 0) {
+    // traverse to it and remove from queue
+    let current = open.shift();
+    setTimeout(() => {
+      setNode(current.row, current.col, "type", "visited", "visited", true);
+    }, 25 * count++);
 
-        // sort elements by fscore (asc)
-        open.sort(function(first, second) {
-            return first.fscore - second.fscore;
-        });
+    // return if at destination
+    if (current.row === end.row && current.col === end.col)
+      return console.log("reached");
 
-        // traverse to it and remove from queue
-        let current = open.shift();
-        setTimeout(() => {
-            component.setNode(current.row, current.col, 'type', 'visited', 'visited', true);
-        }, 25 * count++);
+    // get neighbors
+    let neighbors = getNeighbors(nodes, current);
+    for (let i = 0; i < neighbors.length; ++i) {
+      // get gscore for neighbors
+      let tent_gscore = current.gscore + 1;
 
-        // return if at destination
-        if (current.row === end.row && current.col === end.col) 
-            return console.log('reached');
+      // traverse to neighbor with lowest fscore
+      if (tent_gscore < neighbors[i].gscore) {
+        // update nodes
+        neighbors[i].gscore = tent_gscore;
+        neighbors[i].fscore = tent_gscore + getDistance(neighbors[i], end);
 
-        // get neighbors
-        let neighbors = getNeighbors(component.state.nodes, current);
-        for (let i = 0; i < neighbors.length; ++i) {
-
-            // get gscore for neighbors
-            let tent_gscore = current.gscore + 1;
-
-            // traverse to neighbor with lowest fscore
-            if (tent_gscore < neighbors[i].gscore) {
-
-                // update nodes
-                neighbors[i].gscore = tent_gscore;
-                neighbors[i].fscore = tent_gscore + getDistance(neighbors[i], end);
-
-                // add neighbor to queue
-                if (!open.includes(neighbors[i]))
-                    open.push(neighbors[i]);
-            }
-        }
+        // add neighbor to queue
+        if (!open.includes(neighbors[i])) open.push(neighbors[i]);
+      }
     }
-}   
-
-// function to get neighbors for each element
-function getNeighbors(grid, node) {
-    let neighbors = [];
-
-    if (node.row > 0 && grid[node.row-1][node.col].visited === false)
-        neighbors.push(grid[node.row-1][node.col]);
-
-    if (node.col > 0 && grid[node.row][node.col-1].visited === false)
-        neighbors.push(grid[node.row][node.col-1]);
-
-    if (node.row + 1 < grid.length && grid[node.row+1][node.col].visited === false)
-        neighbors.push(grid[node.row+1][node.col]);
-
-    if (node.col + 1 < grid[0].length && grid[node.row][node.col+1].visited === false)
-        neighbors.push(grid[node.row][node.col+1]);
-
-    return neighbors;
-}
-
-// returns distance between two elements
-function getDistance(a, b) {
-    return Math.hypot(a.row - b.row, a.col - b.col);
-}
+  }
+};
 
 export default AStar;
