@@ -17,10 +17,11 @@ import random from "./algorithms/maze/random.js";
 import "./styles/App.css";
 
 const App = () => {
-  const [end, setEnd] = useState({});
+  const [searching, setSearching] = useState(false);
+  const [algorithm, setAlgorithm] = useState("");
   const [nodes, setNodes] = useState([]);
   const [start, setStart] = useState({});
-  const [algorithm, setAlgorithm] = useState("");
+  const [end, setEnd] = useState({});
 
   useEffect(() => {
     window.addEventListener("resize", generateGrid);
@@ -141,9 +142,15 @@ const App = () => {
             }}
           >
             <option value="">Maze</option>
-            <option value="Backtrack">Backtracking</option>
-            <option value="Division">Division</option>
-            <option value="Random">Random</option>
+            <option disabled={!searching} value="Backtrack">
+              Backtracking
+            </option>
+            <option disabled={!searching} value="Division">
+              Division
+            </option>
+            <option disabled={!searching} value="Random">
+              Random
+            </option>
           </select>
 
           <i className="fas fa-chevron-down"></i>
@@ -176,7 +183,8 @@ const App = () => {
           <input
             type="button"
             value="Search"
-            onClick={() => {
+            onClick={async () => {
+              setSearching(true);
               switch (algorithm) {
                 case "A*":
                   AStar(start, end, nodes, setGrid, setNode);
@@ -193,10 +201,16 @@ const App = () => {
                 default:
                   alert("Please select an algorithm");
               }
+              setSearching(false);
             }}
           />
 
-          <input type="button" value="Reset" onClick={() => generateGrid()} />
+          <input
+            onClick={() => generateGrid()}
+            disabled={!searching}
+            value="Reset"
+            type="button"
+          />
         </div>
       </footer>
     </>
